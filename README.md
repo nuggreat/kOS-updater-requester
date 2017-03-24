@@ -35,7 +35,7 @@ the script Updater.ks will scan the local kOS volumes for files and then update 
 the script Need_File.ks will scan the local volume for the file and if not found locally then it attempt to find a copy on the archive and copy it to the local volume
   
   the script requires the lib lib_file_util.ks and will need to have the RUNPATHONCE edited to point at the copy of the lib on the local volume
-	or use the version called no_lib_Updater.ks as that doesn't need the lib
+	or use the version called no_lib_Need_File.ks as that doesn't need the lib
 	
   the script requires the first parameter to run
   
