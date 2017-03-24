@@ -1,4 +1,6 @@
 PARAMETER notUseExtension IS FALSE, //set if the file being updated must have the same extension as the file on the archive to be updated (FALSE = use and TRUE = ignore)
+notUsePath IS TRUE, //sets if the file being updated must have the same path ignoreing voulme to be updated (FALSE = use and TRUE = ignore)
+notUseSize IS TRUE. //sets if the file being updated must have a different size compared to the file on the archive to be updated (FALSE = use and TRUE = ignore)
 IF EXISTS("0:/") {
 RUNONCEPATH("1:/lib/lib_file_util.ks").
 CLEARSCREEN.

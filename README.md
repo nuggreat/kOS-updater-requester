@@ -46,4 +46,4 @@ the script Need_File.ks will scan the local volume for the file and if not found
     parameter 2: the extension of the file to be looked for this is optional and defaults any extension
       EXAMPLE: "ks" or "txt"
 
-the lib lib_file_util.ks has it's funcitons documented internaly
+the lib lib_file_util.ks has it's functions documented internally

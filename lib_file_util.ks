@@ -28,45 +28,45 @@
 
 FUNCTION dir_list_scan {
 	PARAMETER dirList,extL.
-	LOCAL dirRevert IS PATH().
-	LOCAL masterList IS LIST().
-	FOR dir IN dirList {
-		FOR subFile IN dir_scan(Dir,extL,FALSE) {
+	LOCAL dirRevert IS PATH().  //saves the curent path so it can be reverted after all scans are done
+	LOCAL masterList IS LIST(). //sets up the list that will be returned at end of function
+	FOR dir IN dirList {  //run dir_scan for all items in dirList
+		FOR subFile IN dir_scan(Dir,extL,FALSE) {  //adds all items from list returned by dir_scan to masterList
 			masterList:ADD(subFile).
 		}
 	}
 	WAIT 0.01.
-	CD(dirRevert).
+	CD(dirRevert).  //reverts curent path to what it was at the start of the function call
 	RETURN masterList.
 }
 
 FUNCTION dir_scan {
 	PARAMETER dir,extL,doDirRevert IS TRUE.
-	LOCAL masterList IS LIST().
+	LOCAL masterList IS LIST(). //sets up the list that will be returned at end of function
 
-	LOCAL dirRevert IS PATH().
-	LOCAL dirPath IS PATH(dir).
-	CD(dirPath).
+	LOCAL dirRevert IS PATH(). //saves the curent path so it can be reverted after all scans are done if doDirRevert is TRUE
+	LOCAL dirPath IS PATH(dir). //changes dir into type PATH as dir can be a string is needed
+	CD(dirPath).  
 	LOCAL fileList IS LIST().
-	LIST FILES IN fileList.
+	LIST FILES IN fileList. //adds all files and folders to fileList
 
-	LOCAL dirList IS LIST().
+	LOCAL dirList IS LIST().  //sets up the list for ub-paths to be added to
 	FOR filter IN fileList {
 		FOR ext IN extL {
-			IF filter:ISFILE AND ((filter:EXTENSION = ext) OR (-99999 = ext)) {
-				masterList:ADD(LIST(dirPath,filter)).
+			IF filter:ISFILE AND ((filter:EXTENSION = ext) OR (-99999 = ext)) {  
+				masterList:ADD(LIST(dirPath,filter)).  //adds all found files to masterList provided they match an extension in the extL or if extL is the wild card -99999 in it
 			}
 		}
 		IF (NOT filter:ISFILE) {
-			dirList:ADD(dirPath:COMBINE(filter + "/")).
+			dirList:ADD(dirPath:COMBINE(filter + "/")).  //creats the full path for all sub-paths so that they can be scaned
 		}
 	}
-	FOR subDir IN dirList {
-		FOR subFile IN dir_scan(subDir,extL,FALSE) {
+	FOR subDir IN dirList {  //recersive call  of dir_scan for every sub-path found 
+		FOR subFile IN dir_scan(subDir,extL,FALSE) { //adds all items from list returned by dir_scan to masterList
 			masterList:ADD(subFile).
 		}
 	}
-	IF doDirRevert { 
+	IF doDirRevert { //reverts the curent path so it can be reverted after all scans are done if doDirRevert is TRUE
 		WAIT 0.01.
 		CD(dirRevert).
 	}
