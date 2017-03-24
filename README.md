@@ -22,7 +22,7 @@ the script Updater.ks will scan the local kOS volumes for files and then update 
 	  if the local file's path is "1:/lib/" then the file on the archive must have a path of "0:/lib" not "0:/" or "0:/boot/"
 	  
 	flag 3 is size mismatching, has enable/disable parameter
-	  if the local file's size is "123" then the file on the archive must not have a size of "123" but any other size will work
+	  if the local file's size is 123 then the file on the archive must not have a size of 123 but any other size will work
 	  
   
   updater.ks has 3 parameters they all have defaults so the user doesn't need to always type them in every time the script is run
