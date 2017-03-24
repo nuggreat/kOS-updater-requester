@@ -6,12 +6,12 @@ The script Updater.ks will scan the local kOS volumes for files and then update 
 
   The script requires the lib lib_file_util.ks and will need to have the RUNPATHONCE edited to point at the copy of the lib on the local volume or use the version called no_lib_Updater.ks as that doesn't need the lib.
 
-  The script matches the name of the local file and a file on the archive overwriting the local file with the version on the archive if the other 3 flags are met and enabled
+  The script matches the name of the local file and a file on the archive overwriting the local file with the version on the archive if the other 3 flags are met and enabled.
 
   The script has a internal white list of extension that it will scan.
 	Only extensions on the while list will be looked at by the script.
 	The list is only set to with the extension of "ks" by default but more can be added by editing the code.
-	  Extension on the while list must only be the charters after the "." and not include the ".".
+	  Extension on the while list must only be the charters after the "." and not include the "."
 		EXAMPLE: "ks" will work but ".ks" will not
 
 	Flag 1 is extension matching, has enable/disable parameter.
