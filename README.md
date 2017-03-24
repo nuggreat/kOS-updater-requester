@@ -37,7 +37,7 @@ The script Need_File.ks will scan the local volume for the file and if not found
   
   The script requires the lib lib_file_util.ks and will need to have the RUNPATHONCE edited to point at the copy of the lib on the local volume or use the version called no_lib_Need_File.ks as that doesn't need the lib.
 
-  The script requires the first parameter to run
+  The script requires the first parameter to run.
 
   The script will also preserve the path of the file from the archive to the local volume.
 	EXAMPLE: archive path of "0:/lib/" will result in the file being copied to "1:/lib/".
