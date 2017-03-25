@@ -11,7 +11,7 @@ The script Updater.ks will scan the local kOS volumes for files and then update 
   The script has a internal white list of extension that it will scan.
 	Only extensions on the while list will be looked at by the script.
 	The list is only set to with the extension of "ks" by default but more can be added by editing the code.
-	  Extension on the while list must only be the charters after the "." and not include the "."
+	  Extension on the white list must only be the charters after the "." and not include the "."
 		EXAMPLE: "ks" will work but ".ks" will not
 
 	Flag 1 is extension matching, has enable/disable parameter.
@@ -22,7 +22,7 @@ The script Updater.ks will scan the local kOS volumes for files and then update 
 
 	Flag 3 is size mismatching, has enable/disable parameter.
 	  If the local file's size is "123" then the file on the archive must not have a size of "123" but any other size will work.
-	  Note: the default way text files on windows computer are saved leaves you with 2 charters to note the start of a new line and kOS only has one so when coping a file kOS removes the extra charter.  This means that the size check will not work as intended because even after being copied the file on the archive will be larger than the file on the kOS core.
+	  Note: the default way text files on windows computer are saved leaves you with 2 charters to note the start of a new line and kOS only has one so when coping a file kOS removes the extra charter.  This means that the size check will not work as intended because even after being copied the file on the archive will be larger than the file on the kOS core.  In most text editors designed for editing code you can set them to only use 1 charter for a new line.
 
 
   Updater.ks has 3 parameters they all have defaults so the user doesn't need to always type them in every time the script is run.
