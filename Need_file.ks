@@ -3,11 +3,10 @@ fileExt IS "". //fileExt must be a string of the file extension with out everyth
 RUNONCEPATH("1:/lib/lib_file_util.ks").
 
 LOCAL archiveDir IS PATH("0:/").
-LOCAL localDir IS PATH("1:/").
-LOCAL extList IS LIST(-99999).
+LOCAL localDir IS PATH(CORE:CURRENTVOLUME).
 
 LOCAL copyNeeded IS TRUE.
-FOR localFile IN dir_scan(localDir,extList) {
+FOR localFile IN dir_scan(localDir) {
 	IF name_only(localFile[1]) = fileName {
 		IF localFile[1]:EXTENSION = fileExt OR fileExt = "" {
 			PRINT "Local Copy Found of File: " + fileName.
@@ -22,7 +21,7 @@ IF copyNeeded {
 	PRINT "No Local Copy of File: " + fileName.
 	PRINT "Scaning Archive".
 	IF EXISTS("0:/") {
-		FOR archiveFile IN dir_scan(archiveDir,extList) {
+		FOR archiveFile IN dir_scan(archiveDir) {
 			IF name_only(archiveFile[1]) = fileName {
 				IF archiveFile[1]:EXTENSION = fileExt OR fileExt = "" {
 					LOCAL localPath IS localDir:ROOT:COMBINE(no_root(archiveFile[0])).

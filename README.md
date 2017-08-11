@@ -6,7 +6,7 @@ The script Updater.ks will scan the local kOS volumes for files and then update 
 
   The script requires the lib lib_file_util.ks and will need to have the RUNPATHONCE edited to point at the copy of the lib on the local volume or use the version called no_lib_Updater.ks as that doesn't need the lib.
 
-  The script matches the name of the local file and a file on the archive overwriting the local file with the version on the archive if the other 3 flags are met and enabled.
+  The script matches the name of the local file and a file on the archive overwriting the local file with the version on the archive if the first 3 flags are met and enabled.
 
   The script has a internal white list of extension that it will scan.
 	Only extensions on the while list will be looked at by the script.
@@ -23,14 +23,17 @@ The script Updater.ks will scan the local kOS volumes for files and then update 
 	Flag 3 is size mismatching, has enable/disable parameter.
 	  If the local file's size is "123" then the file on the archive must not have a size of "123" but any other size will work.
 	  Note: the default way text files on windows computer are saved leaves you with 2 charters to note the start of a new line and kOS only has one so when coping a file kOS removes the extra charter.  This means that the size check will not work as intended because even after being copied the file on the archive will be larger than the file on the kOS core.  In most text editors designed for editing code you can set them to only use 1 charter for a new line.
+	 
+	Flag 4 is compile from archive to local, has enable/disable parameter
+	  If the archive file's extension is ".ks" and the local file's extension is ".ksm" then the archive file will be compiled to the location 
 
 
-  Updater.ks has 3 parameters they all have defaults so the user doesn't need to always type them in every time the script is run.
+  Updater.ks has 4 parameters they all have defaults so the user doesn't need to always type them in every time the script is run.
 
 	Parameter 1: extension matching enable/disable, FALSE = enable and TRUE = disable, default is FALSE
 	Parameter 2:	  path matching enable/disable, FALSE = enable and TRUE = disable, default is TRUE
 	Parameter 3:   size mismatching enable/disable, FALSE = enable and TRUE = disable, default is TRUE
-
+	Parameter 3:            compile enable/disable, TRUE = enable and FALSE = disable, default is FALSE
 
 
 The script Need_File.ks will scan the local volume for the file and if not found locally then it attempt to find a copy on the archive and copy it to the local volume.

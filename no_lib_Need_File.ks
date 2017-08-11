@@ -1,13 +1,11 @@
 PARAMETER fileName,	//fileName must be a string of the file name with out the extension EXAMPLE: "need_file"
 fileExt IS "". //fileExt must be a string of the file extension with out everything before
-RUNONCEPATH("1:/lib/lib_file_util.ks").
 
 LOCAL archiveDir IS PATH("0:/").
-LOCAL localDir IS PATH("1:/").
-LOCAL extList IS LIST(-99999).
+LOCAL localDir IS PATH(CORE:CURRENTVOLUME).
 
 LOCAL copyNeeded IS TRUE.
-FOR localFile IN dir_scan(localDir,extList) {
+FOR localFile IN dir_scan(localDir) {
 	IF name_only(localFile[1]) = fileName {
 		IF localFile[1]:EXTENSION = fileExt OR fileExt = "" {
 			PRINT "Local Copy Found of File: " + fileName.
@@ -22,7 +20,7 @@ IF copyNeeded {
 	PRINT "No Local Copy of File: " + fileName.
 	PRINT "Scaning Archive".
 	IF EXISTS("0:/") {
-		FOR archiveFile IN dir_scan(archiveDir,extList) {
+		FOR archiveFile IN dir_scan(archiveDir) {
 			IF name_only(archiveFile[1]) = fileName {
 				IF archiveFile[1]:EXTENSION = fileExt OR fileExt = "" {
 					LOCAL localPath IS localDir:ROOT:COMBINE(no_root(archiveFile[0])).
@@ -42,28 +40,37 @@ IF copyNeeded {
 }
 
 FUNCTION dir_scan {
-	PARAMETER dir,extL,doDirRevert IS TRUE.
+	PARAMETER dirIn,extL IS LIST(-99999),doDirRevert IS TRUE.
 	LOCAL masterList IS LIST().
 
 	LOCAL dirRevert IS PATH().
-	LOCAL dirPath IS PATH(dir).
-	CD(dirPath).
-	LOCAL fileList IS LIST().
-	LIST FILES IN fileList.
-
-	LOCAL dirList IS LIST().
-	FOR filter IN fileList {
-		FOR ext IN extL {
-			IF filter:ISFILE AND ((filter:EXTENSION = ext) OR (-99999 = ext)) {
-				masterList:ADD(LIST(dirPath,filter)).
+	IF dirIn:ISTYPE("list") {
+		FOR subDir IN dirIn {
+			FOR foundItem IN dir_scan(subDir,extL,FALSE) {
+				masterList:ADD(foundItem).
 			}
 		}
-		IF (NOT filter:ISFILE) {
-			dirList:ADD(dirPath:COMBINE(filter + "/")).
+	} ELSE {
+		LOCAL dirPath IS PATH(dirIn).
+		CD(dirPath).
+		LOCAL fileList IS LIST().
+		LIST FILES IN fileList.
+
+		LOCAL dirList IS LIST().
+		IF NOT extL:ISTYPE("list") { masterList:ADD(dirPath). }
+		FOR filter IN fileList {
+			IF extL:ISTYPE("list") {
+				FOR ext IN extL {
+					IF filter:ISFILE AND ((filter:EXTENSION = ext) OR (-99999 = ext)) {
+						masterList:ADD(LIST(dirPath,filter)).
+					}
+				}
+			}
+			IF (NOT filter:ISFILE) {
+				dirList:ADD(dirPath:COMBINE(filter + "/")).
+			}
 		}
-	}
-	FOR subDir IN dirList {
-		FOR subFile IN dir_scan(subDir,extL,FALSE) {
+		FOR subFile IN dir_scan(dirList,extL,FALSE) {
 			masterList:ADD(subFile).
 		}
 	}
