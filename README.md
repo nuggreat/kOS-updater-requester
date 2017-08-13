@@ -8,6 +8,8 @@ scripts for file handling in kOS and the lib needed to run them
 
   the 12 functions are sorted into 2 categories 1st is called "File Tools" the 2nd is "Directory Tools" these categories are in the form of 2 buttons at the top of the GUI.  A dropdown menu below the tool buttons is where you select the exact function you want to use.
   
+  the burron labled "Done" will end the script
+  
   NOTE: as the file_util script is so large it is recommended you make a compiled version to speed up load times on boot as it can take several seconds to start after having typed RUN
   
   File Tools:

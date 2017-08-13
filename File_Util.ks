@@ -68,7 +68,7 @@ LOCAL iDestinationMenu IS interface:ADDVBOX.//set up destination interface
    SET idmdList:STYLE:WIDTH TO 300.
 
 LOCAL iLabel1 IS interface:ADDLABEL(" ").
-LOCAL doneButton IS interface:ADDBUTTON("done").
+LOCAL doneButton IS interface:ADDBUTTON("Done").
 
 //seting up trigers
 file_directory_slector(TRUE).
@@ -246,7 +246,7 @@ FUNCTION show_hide_inputs {
 
 FUNCTION source_dir_slector {//build source directory list
 	PARAMETER vol.
-	PRINT "source vol: " +vol.
+	PRINT "Source vol: " +vol.
 	IF vol = "archive" {
 		SET ismdList:OPTIONS TO archiveDirs.
 	} ELSE {
@@ -260,7 +260,7 @@ FUNCTION source_dir_slector {//build source directory list
 
 FUNCTION source_file_slector {//build source file list
 	PARAMETER dir.
-	PRINT "source dir: " + dir.
+	PRINT "Source dir: " + dir.
 	LOCAL fileList IS get_files(dir).
 	SET ismfList:OPTIONS TO file_filter(fileList).
 	index_in_range(ismfList).
@@ -270,7 +270,7 @@ FUNCTION source_file_slector {//build source file list
 FUNCTION source_file_info_updater {//update information about slected source file
 	PARAMETER sFile.
 	IF ismfList:OPTIONS:LENGTH <> 0 {
-		PRINT "source file: " + sFile.
+		PRINT "Source File: " + sFile.
 		SET ismfbSize:TEXT TO "File Size: " + sFile:SIZE.
 		IF iModeList:VALUE = "Rename Files" { SET smnName:TEXT TO sFile:NAME. }
 		ismfList:SHOW.
@@ -385,13 +385,13 @@ FUNCTION edit_file {
 	LOCAL fromPath IS PATH(ismdList:VALUE).
 	LOCAL fileName IS ismfList:VALUE:NAME.
 	EDIT(fromPath:COMBINE(fileName)).
-	PRINT "editing File: " + fileName.
+	PRINT "Editing File: " + fileName.
 	PRINT "          At: " + fromPath.
 }
 
 FUNCTION new_directory_at {
 	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL newDirName IS ndnName:TEXT.
+	LOCAL newDirName IS smnName:TEXT.
 	IF NOT EXISTS(fromPath:COMBINE(newDirName)) {
 		CREATEDIR(fromPath:COMBINE(newDirName)).
 		PRINT "Making New Directory: " + newDirName.
@@ -399,7 +399,7 @@ FUNCTION new_directory_at {
 	} ELSE {
 		PRINT "Directory Already Exists".
 	}
-	SET ndnName:TEXT TO "".
+	SET smnName:TEXT TO "".
 }
 
 FUNCTION unpack_directory_at {
@@ -421,7 +421,7 @@ FUNCTION update_local_volume {
 	LOCAL useCompile IS uvCompile:PRESSED.
 	LOCAL localFiles IS dir_scan(PATH("1:/")).
 	LOCAL archiveFiles IS dir_scan(PATH("0:/")).
-	PRINT "called updater".
+	PRINT "Called Updater".
 	PRINT " ".
 	FOR lFile IN localFiles {
 		FOR aFile IN archiveFiles {
@@ -446,7 +446,7 @@ FUNCTION update_local_volume {
 			}
 		}
 	}
-	PRINT "done".
+	PRINT "Done Updating Files".
 }
 
 FUNCTION get_files {
