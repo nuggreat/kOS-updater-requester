@@ -108,10 +108,9 @@ WAIT UNTIL done.
 interface:DISPOSE.
 
 FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL toPath IS PATH(idmdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	LOCAL newName IS smnName:TEXT.
+	LOCAL dirRebild IS ifdsDir:PRESSED.  //info needed for rebuild
+	LOCAL menuValue IS ismvList:VALUE.   //info needed for rebuild
+	IF iDestinationMenu:VISIBLE { SET menuValue TO idmvList:VALUE. }
 	
 	iGoButton:HIDE.
 	iWorking:SHOW.
@@ -121,18 +120,16 @@ FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
 	modeLex[chosenMode]:CALL().
 	PRINT " ".
 	
-	IF iSourceMenu:VISIBLE AND (chosenMode <> "Edit Files") {//recreate source/destination dir/file lists after a mode runs
-		LOCAL menuValue IS ismvList:VALUE.
-		IF iDestinationMenu:VISIBLE { SET menuValue TO idmvList:VALUE. }
+	IF dirRebild AND iSourceMenu:VISIBLE {//rebuild source/destination dir/file lists after a mode runs
 		IF menuValue = "archive" {
 			SET archiveDirs TO dir_scan(PATH("0:/"),FALSE).
 		}
 		IF menuValue = "local" {
 			SET localDirs TO dir_scan(PATH("1:/"),FALSE).
 		}
-		destination_dir_slector(idmvList:VALUE).
-		source_dir_slector(ismvList:VALUE).
 	}
+	destination_dir_slector(idmvList:VALUE).
+	source_dir_slector(ismvList:VALUE).//end of rebuild
 	
 	iWorking:HIDE.
 	iGoButton:SHOW.
@@ -265,11 +262,7 @@ FUNCTION source_file_slector {//build source file list
 	PARAMETER dir.
 	PRINT "source dir: " + dir.
 	LOCAL fileList IS get_files(dir).
-	IF ismvList:VALUE = "archive" {
-		SET ismfList:OPTIONS TO file_filter(fileList).
-	} ELSE {
-		SET ismfList:OPTIONS TO file_filter(fileList).
-	}
+	SET ismfList:OPTIONS TO file_filter(fileList).
 	index_in_range(ismfList).
 	source_file_info_updater(ismfList:VALUE).
 }
