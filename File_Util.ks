@@ -10,7 +10,6 @@ LOCAL done IS FALSE.
 
 LOCAL interface IS GUI(500).
 SET interface:Y TO 150.
-LOCAL iLabel0 TO interface:ADDLABEL("mode").
 LOCAL ifdSlect IS interface:ADDHBOX.
  LOCAL ifdsFile IS ifdSlect:ADDRADIOBUTTON("File Tools",TRUE).
  LOCAL ifdsDir IS ifdSlect:ADDRADIOBUTTON("Directory Tools",FALSE).
@@ -34,7 +33,7 @@ LOCAL SubMenu IS interface:ADDVBOX.
 LOCAL iGoButton IS interface:ADDBUTTON("").
 LOCAL iWorking IS interface:ADDBUTTON("").
 iWorking:HIDE.
-LOCAL iLabel2 IS interface:ADDLABEL(" ").
+LOCAL iLabel0 IS interface:ADDLABEL(" ").
 
 LOCAL iSourceMenu IS interface:ADDVBOX.//set up source interface
  LOCAL ismLabel IS iSourceMenu:ADDLABEL("Source").
@@ -68,7 +67,7 @@ LOCAL iDestinationMenu IS interface:ADDVBOX.//set up destination interface
   LOCAL idmdList IS idmDirectory:ADDPOPUPMENU().
    SET idmdList:STYLE:WIDTH TO 300.
 
-LOCAL iLabel3 IS interface:ADDLABEL(" ").
+LOCAL iLabel1 IS interface:ADDLABEL(" ").
 LOCAL doneButton IS interface:ADDBUTTON("done").
 
 //seting up trigers

@@ -8,6 +8,8 @@ scripts for file handling in kOS and the lib needed to run them
 
   the 12 functions are sorted into 2 categories 1st is called "File Tools" the 2nd is "Directory Tools" theas categories are in the form of 2 buttons at the top of the GUI.  A dropdown menu below the tool buttons is where you select the exact function you want to use.
   
+  NOTE: as the file_util script is so large it is recommended you make a compiled version to speed up load times on boot as it can take several seconds to start after having typed RUN
+  
   File Tools:
   
     Copy Files: Copies a file defined by Source to the directory defined by Destination
@@ -16,7 +18,7 @@ scripts for file handling in kOS and the lib needed to run them
     Delete Files: Deletes a file defined by Source
     Rename Files: Renames a file defined by Source
       Has a text field for user input to set the new file name
-    Edit Files: Edits a file defined by Source
+    Edit Files: Calls kOS edit command for a file defined by Source
     
   Directory Tools:
   
