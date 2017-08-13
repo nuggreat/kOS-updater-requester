@@ -2,47 +2,51 @@
 scripts for file handling in kOS and the lib needed to run them
 
 
-**The script file_util.ks has 12 functions contoled through a ingame GIU
+**The script file_util.ks has 12 functions controlled through a ingame GIU**
 
   The script requires the lib lib_file_util.ks and will need to have the RUNPATHONCE edited to point at the copy of the lib on the local volume or use the version called file_util_standalone.ks as that doesn't need the lib.
 
-  the 12 functions are sorted into 2 catagories 1st is called "File Tools" the 2nd is "Directory Tools" theas catagories are in the form of 2 buttons at the top of the GUI.  A dropdown menu below the tool buttons is where you slect the exact function you want to use.
+  the 12 functions are sorted into 2 categories 1st is called "File Tools" the 2nd is "Directory Tools" theas categories are in the form of 2 buttons at the top of the GUI.  A dropdown menu below the tool buttons is where you select the exact function you want to use.
   
   File Tools:
-    Copy Files: Copies a file defined by Source options to the directory defined by Destination
-    Compile Files: Compiles a file defined by Source options to the directory defined by Destination
-    Move Files: Moves a file defined by Source options to the directory defined by Destination
+  
+    Copy Files: Copies a file defined by Source to the directory defined by Destination
+    Compile Files: Compiles a file defined by Source to the directory defined by Destination
+    Move Files: Moves a file defined by Source to the directory defined by Destination
     Delete Files: Deletes a file defined by Source
     Rename Files: Renames a file defined by Source
-	  Has a text field for user input to set the new file name
+      Has a text field for user input to set the new file name
     Edit Files: Edits a file defined by Source
     
   Directory Tools:
+  
     Copy Directory: Copies a directory by Source to the directory defined by Destination 
-	Move Directory: Moves a directory by Source to the directory defined by Destination 
-	New Directory: Makes a new Directory defined by the Source
-	  Has a text field for user input to set the new Directory name
-	Unpack Directory: Copies the entire contents of a directory defined by Source to the directory defined by Destination
-	Update Local Volume: A inbuilt version of updater.ks has buttons for all 4 flags
+    Move Directory: Moves a directory by Source to the directory defined by Destination 
+    New Directory: Makes a new Directory defined by the Source
+      Has a text field for user input to set the new Directory name
+    Unpack Directory: Copies the entire contents of a directory defined by Source to the directory defined by Destination
+    Update Local Volume: A inbuilt version of updater.ks has buttons for all 4 flags
     Delete Directory: Deletes a directory defined by Source
-	
+    
   Source:
+  
     Source is a set of 2 or 3 drop down lists that define a directory or file
-	  1st dropdown: a slection for volume with 2 options (defults to Archive)
-	    Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
-		Local: is the volume used by the kOS core that ran the script used for local storage of scripts
-	  2nd dropdown: a list of all directories in the volume slected by Source dropdown 1
-	  3rd dropdown: a list of all files found in the directory slected by Source dropdown 2
-	    3rd dropdown is invisable for all Directory Tools as they don't interact with files derectly
-		will dislay size of slected file
-		
+      1st dropdown: a selection for volume with 2 options (defaults to Archive)
+        Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
+        Local: is the volume used by the kOS core that ran the script used for local storage of scripts
+      2nd dropdown: a list of all directories in the volume selected by Source dropdown 1
+      3rd dropdown: a list of all files found in the directory selected by Source dropdown 2
+        3rd dropdown is invisible for all Directory Tools as they don't interact with files directly
+        will display size of selected file
+        
   Destination:
+  
     Destination is a set of 2 drop down lists that define second directory
-	  1st dropdown: a slection for volume with 2 options (defults to local)
-	    Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
-		Local: is the volume used by the kOS core that ran the script used for local storage of scripts
-	  2nd dropdown: a list of all directories in the volume slected by Destination dropdown 1
-	    will display space remaining in slected volume
+      1st dropdown: a selection for volume with 2 options (defaults to local)
+        Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
+        Local: is the volume used by the kOS core that ran the script used for local storage of scripts
+      2nd dropdown: a list of all directories in the volume slected by Destination dropdown 1
+        will display space remaining in selected volume
 
  
 **The script Updater.ks will scan the local kOS volumes for files and then update the local files with the copies from the archive volume.**
