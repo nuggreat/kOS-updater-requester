@@ -34,6 +34,7 @@ scripts for file handling in kOS and the lib needed to run them
 	  2nd dropdown: a list of all directories in the volume slected by Source dropdown 1
 	  3rd dropdown: a list of all files found in the directory slected by Source dropdown 2
 	    3rd dropdown is invisable for all Directory Tools as they don't interact with files derectly
+		will dislay size of slected file
 		
   Destination:
     Destination is a set of 2 drop down lists that define second directory
@@ -41,6 +42,7 @@ scripts for file handling in kOS and the lib needed to run them
 	    Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
 		Local: is the volume used by the kOS core that ran the script used for local storage of scripts
 	  2nd dropdown: a list of all directories in the volume slected by Destination dropdown 1
+	    will display space remaining in slected volume
 
  
 **The script Updater.ks will scan the local kOS volumes for files and then update the local files with the copies from the archive volume.**
