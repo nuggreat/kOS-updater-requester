@@ -36,8 +36,8 @@ scripts for file handling in kOS and the lib needed to run them
       1st dropdown: a selection for volume with 2 options (defaults to Archive)
         Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
         Local: is the volume used by the kOS core that ran the script used for local storage of scripts
-      2nd dropdown: a list of all directories in the volume selected by Source dropdown 1
-      3rd dropdown: a list of all files found in the directory selected by Source dropdown 2
+      2nd dropdown: a dropdown list of all directories in the volume selected by Source dropdown 1
+      3rd dropdown: a dropdown list of all files found in the directory selected by Source dropdown 2
         3rd dropdown is invisible for all Directory Tools as they don't interact with files directly
         will display size of selected file
         
@@ -47,7 +47,7 @@ scripts for file handling in kOS and the lib needed to run them
       1st dropdown: a selection for volume with 2 options (defaults to local)
         Archive: is the folder in the KSP directory that kOS intends you to have your scripts saved so they can be read in game
         Local: is the volume used by the kOS core that ran the script used for local storage of scripts
-      2nd dropdown: a list of all directories in the volume slected by Destination dropdown 1
+      2nd dropdown: a dropdown list of all directories in the volume slected by Destination dropdown 1
         will display space remaining in selected volume
 
  
