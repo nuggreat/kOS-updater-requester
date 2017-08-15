@@ -434,13 +434,13 @@ FUNCTION update_local_volume {
 							PRINT "        From: " + aFile[0] + " To: " + lFile[0].
 							PRINT " ".
 						}
-						IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
-							PRINT "Compiling File: " + aFile[1].
-							PRINT "          From: " + aFile[0] + " To: " + lFile[0].
-							COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
-							PRINT "Done Compiling: " + aFile[1].
-							PRINT " ".
-						}
+					}
+					IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
+						PRINT "Compiling File: " + aFile[1].
+						PRINT "          From: " + aFile[0] + " To: " + lFile[0].
+						COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
+						PRINT "Done Compiling: " + aFile[1].
+						PRINT " ".
 					}
 				}
 			}
