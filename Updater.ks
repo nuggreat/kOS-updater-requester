@@ -9,7 +9,7 @@ LOCAL localDir IS LIST().
 LIST VOLUMES IN localDir.
 LOCAL archiveDir IS localDir[0].
 localDir:REMOVE(0).
-LOCAL extList IS LIST("ks").
+LOCAL extList IS LIST("ks","ksm").
 
 LOCAL localFiles IS dir_scan(localDir,extList).
 LOCAL archiveFiles IS dir_scan(archiveDir,extList).
