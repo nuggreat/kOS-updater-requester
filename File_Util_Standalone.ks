@@ -107,420 +107,420 @@ WAIT UNTIL done.
 interface:DISPOSE.
 
 FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
-	LOCAL dirRebild IS ifdsDir:PRESSED.  //info needed for rebuild
-	LOCAL menuValue IS ismvList:VALUE.   //info needed for rebuild
-	IF iDestinationMenu:VISIBLE { SET menuValue TO idmvList:VALUE. }
-	
-	iGoButton:HIDE.
-	iWorking:SHOW.
-	
-	LOCAL chosenMode IS iModeList:VALUE.
-	PRINT " ".
-	modeLex[chosenMode]:CALL().
-	PRINT " ".
-	
-	IF dirRebild AND iSourceMenu:VISIBLE {//rebuild source/destination dir/file lists after a mode runs
-		IF menuValue = "archive" {
-			SET archiveDirs TO dir_scan(PATH("0:/"),FALSE).
-		}
-		IF menuValue = "local" {
-			SET localDirs TO dir_scan(PATH("1:/"),FALSE).
-		}
-	}
-	destination_dir_slector(idmvList:VALUE).
-	source_dir_slector(ismvList:VALUE).//end of rebuild
-	
-	iWorking:HIDE.
-	iGoButton:SHOW.
+  LOCAL dirRebild IS ifdsDir:PRESSED.  //info needed for rebuild
+  LOCAL menuValue IS ismvList:VALUE.   //info needed for rebuild
+  IF iDestinationMenu:VISIBLE { SET menuValue TO idmvList:VALUE. }
+  
+  iGoButton:HIDE.
+  iWorking:SHOW.
+  
+  LOCAL chosenMode IS iModeList:VALUE.
+  PRINT " ".
+  modeLex[chosenMode]:CALL().
+  PRINT " ".
+  
+  IF dirRebild AND iSourceMenu:VISIBLE {//rebuild source/destination dir/file lists after a mode runs
+    IF menuValue = "archive" {
+      SET archiveDirs TO dir_scan(PATH("0:/"),FALSE).
+    }
+    IF menuValue = "local" {
+      SET localDirs TO dir_scan(PATH("1:/"),FALSE).
+    }
+  }
+  destination_dir_slector(idmvList:VALUE).
+  source_dir_slector(ismvList:VALUE).//end of rebuild
+  
+  iWorking:HIDE.
+  iGoButton:SHOW.
 }
 
 FUNCTION file_directory_slector {//cycles mode list betwene file and directory options
-	PARAMETER slection.
-	PRINT ifdSlect:RADIOVALUE.
-	IF ifdSlect:RADIOVALUE = "File Tools" {
-		SET iModeList:OPTIONS TO LIST("Copy Files","Compile Files","Move Files","Delete Files","Rename Files","Edit Files").
-	}
-	IF ifdSlect:RADIOVALUE = "Directory Tools" {
-		SET iModeList:OPTIONS TO LIST("Copy Directory","Move Directory","New Directory","Unpack Directory","Update Local Volume","Delete Directory").
-	}
-	SET iModeList:INDEX TO 0.
-	subMenu_slector(iModeList:VALUE).
+  PARAMETER slection.
+  PRINT ifdSlect:RADIOVALUE.
+  IF ifdSlect:RADIOVALUE = "File Tools" {
+    SET iModeList:OPTIONS TO LIST("Copy Files","Compile Files","Move Files","Delete Files","Rename Files","Edit Files").
+  }
+  IF ifdSlect:RADIOVALUE = "Directory Tools" {
+    SET iModeList:OPTIONS TO LIST("Copy Directory","Move Directory","New Directory","Unpack Directory","Update Local Volume","Delete Directory").
+  }
+  SET iModeList:INDEX TO 0.
+  subMenu_slector(iModeList:VALUE).
 }
 
 FUNCTION subMenu_slector {//changed visable mode
-	PARAMETER chosenMode.
-	PRINT "mode: " + chosenMode.
-	IF ifdsFile:PRESSED {
-		IF chosenMode = "Copy Files" {
-			SET smLabel:TEXT TO "Copy File From Source To Destination".
-			SET iGoButton:TEXT TO "Copy".
-			SET iWorking:TEXT TO "Copying".
-			show_hide_inputs(1,1,1,0).
-		}
-		IF chosenMode = "Compile Files" {
-			SET smLabel:TEXT TO "Compile File From Source To Destination".
-			SET iGoButton:TEXT TO "Compile".
-			SET iWorking:TEXT TO "Compiling".
-			show_hide_inputs(1,1,1,0).
-		}
-		IF chosenMode = "Move Files" {
-			SET smLabel:TEXT TO "Move File From Source To Destination".
-			SET iGoButton:TEXT TO "Move".
-			SET iWorking:TEXT TO "Moving".
-			show_hide_inputs(1,1,1,0).
-		}
-		IF chosenMode = "Delete Files" {
-			SET smLabel:TEXT TO "Delete File Set With Source".
-			SET iGoButton:TEXT TO "Delete".
-			SET iWorking:TEXT TO "Deleting".
-			show_hide_inputs(1,0,1,0).
-		}
-		IF chosenMode = "Rename Files" {
-			SET smLabel:TEXT TO "Rename File Set With Source".
-			SET smnLabel:TEXT TO "New Name: ".
-			SET iGoButton:TEXT TO "Rename".
-			SET iWorking:TEXT TO "Renaming".
-			SET smnName:TEXT TO ismfList:VALUE:NAME.
-			show_hide_inputs(1,0,1,1).
-		}
-		IF chosenMode = "Edit Files" {
-			SET smLabel:TEXT TO "Edit File Set With Source".
-			SET iGoButton:TEXT TO "Edit".
-			SET iWorking:TEXT TO "Editing".
-			show_hide_inputs(1,0,1,0).
-		}
-	} ELSE {
-		IF chosenMode = "Copy Directory" {
-			SET smLabel:TEXT TO "Copy Directory From Source To Destination".
-			SET iGoButton:TEXT TO "Copy".
-			SET iWorking:TEXT TO "Copying".
-			show_hide_inputs(1,1,0,0).
-		}
-		IF chosenMode = "Move Directory" {
-			SET smLabel:TEXT TO "Move Directory From Source To Destination".
-			SET iGoButton:TEXT TO "Move".
-			SET iWorking:TEXT TO "Moving".
-			show_hide_inputs(1,1,0,2).
-		}
-		IF chosenMode = "New Directory" {
-			SET smLabel:TEXT TO "Create New Directory At Source".
-			SET smnLabel:TEXT TO "New Directory: ".
-			SET iGoButton:TEXT TO "Create".
-			SET iWorking:TEXT TO "Creating".
-			SET smnName:TEXT TO "".
-			show_hide_inputs(1,0,0,1).
-		}
-		IF chosenMode = "Unpack Directory" {
-			SET smLabel:TEXT TO "Unpack Contents of Source Directory in Destination".
-			SET iGoButton:TEXT TO "Unack".
-			SET iWorking:TEXT TO "Unacking".
-			show_hide_inputs(1,1,0,0).
-		}
-		IF chosenMode = "Update Local Volume" {
-			SET smLabel:TEXT TO "Update Local Volume".
-			SET iGoButton:TEXT TO "Update".
-			SET iWorking:TEXT TO "Updating".
-			show_hide_inputs(0,0,0,4).
-		}
-		IF chosenMode = "Delete Directory" {
-			SET smLabel:TEXT TO "Delete Directory Set With Source".
-			SET iGoButton:TEXT TO "Delete".
-			SET iWorking:TEXT TO "Deleting".
-			show_hide_inputs(1,0,0,3).
-		}
-	}
+  PARAMETER chosenMode.
+  PRINT "mode: " + chosenMode.
+  IF ifdsFile:PRESSED {
+    IF chosenMode = "Copy Files" {
+      SET smLabel:TEXT TO "Copy File From Source To Destination".
+      SET iGoButton:TEXT TO "Copy".
+      SET iWorking:TEXT TO "Copying".
+      show_hide_inputs(1,1,1,0).
+    }
+    IF chosenMode = "Compile Files" {
+      SET smLabel:TEXT TO "Compile File From Source To Destination".
+      SET iGoButton:TEXT TO "Compile".
+      SET iWorking:TEXT TO "Compiling".
+      show_hide_inputs(1,1,1,0).
+    }
+    IF chosenMode = "Move Files" {
+      SET smLabel:TEXT TO "Move File From Source To Destination".
+      SET iGoButton:TEXT TO "Move".
+      SET iWorking:TEXT TO "Moving".
+      show_hide_inputs(1,1,1,0).
+    }
+    IF chosenMode = "Delete Files" {
+      SET smLabel:TEXT TO "Delete File Set With Source".
+      SET iGoButton:TEXT TO "Delete".
+      SET iWorking:TEXT TO "Deleting".
+      show_hide_inputs(1,0,1,0).
+    }
+    IF chosenMode = "Rename Files" {
+      SET smLabel:TEXT TO "Rename File Set With Source".
+      SET smnLabel:TEXT TO "New Name: ".
+      SET iGoButton:TEXT TO "Rename".
+      SET iWorking:TEXT TO "Renaming".
+      SET smnName:TEXT TO ismfList:VALUE:NAME.
+      show_hide_inputs(1,0,1,1).
+    }
+    IF chosenMode = "Edit Files" {
+      SET smLabel:TEXT TO "Edit File Set With Source".
+      SET iGoButton:TEXT TO "Edit".
+      SET iWorking:TEXT TO "Editing".
+      show_hide_inputs(1,0,1,0).
+    }
+  } ELSE {
+    IF chosenMode = "Copy Directory" {
+      SET smLabel:TEXT TO "Copy Directory From Source To Destination".
+      SET iGoButton:TEXT TO "Copy".
+      SET iWorking:TEXT TO "Copying".
+      show_hide_inputs(1,1,0,0).
+    }
+    IF chosenMode = "Move Directory" {
+      SET smLabel:TEXT TO "Move Directory From Source To Destination".
+      SET iGoButton:TEXT TO "Move".
+      SET iWorking:TEXT TO "Moving".
+      show_hide_inputs(1,1,0,2).
+    }
+    IF chosenMode = "New Directory" {
+      SET smLabel:TEXT TO "Create New Directory At Source".
+      SET smnLabel:TEXT TO "New Directory: ".
+      SET iGoButton:TEXT TO "Create".
+      SET iWorking:TEXT TO "Creating".
+      SET smnName:TEXT TO "".
+      show_hide_inputs(1,0,0,1).
+    }
+    IF chosenMode = "Unpack Directory" {
+      SET smLabel:TEXT TO "Unpack Contents of Source Directory in Destination".
+      SET iGoButton:TEXT TO "Unack".
+      SET iWorking:TEXT TO "Unacking".
+      show_hide_inputs(1,1,0,0).
+    }
+    IF chosenMode = "Update Local Volume" {
+      SET smLabel:TEXT TO "Update Local Volume".
+      SET iGoButton:TEXT TO "Update".
+      SET iWorking:TEXT TO "Updating".
+      show_hide_inputs(0,0,0,4).
+    }
+    IF chosenMode = "Delete Directory" {
+      SET smLabel:TEXT TO "Delete Directory Set With Source".
+      SET iGoButton:TEXT TO "Delete".
+      SET iWorking:TEXT TO "Deleting".
+      show_hide_inputs(1,0,0,3).
+    }
+  }
 }
 
 FUNCTION show_hide_inputs {
-	PARAMETER ism,idm,ismf,ismx.
-	IF ism = 1 { iSourceMenu:SHOW. } ELSE { iSourceMenu:HIDE. }
-	IF idm = 1 { iDestinationMenu:SHOW. } ELSE { iDestinationMenu:HIDE. }
-	IF ismf = 1 { ismFile:SHOW. } ELSE { ismFile:HIDE. }
-	
-	IF ismx = 1 { smNew:SHOW. } ELSE { smNew:HIDE. }
-	IF ismx = 2 { mdWarning:SHOW. } ELSE { mdWarning:HIDE. }
-	IF ismx = 3 { ddWarning:SHOW. } ELSE { ddWarning:HIDE. }
-	IF ismx = 4 { smOptions:SHOW. } ELSE { smOptions:HIDE. }
+  PARAMETER ism,idm,ismf,ismx.
+  IF ism = 1 { iSourceMenu:SHOW. } ELSE { iSourceMenu:HIDE. }
+  IF idm = 1 { iDestinationMenu:SHOW. } ELSE { iDestinationMenu:HIDE. }
+  IF ismf = 1 { ismFile:SHOW. } ELSE { ismFile:HIDE. }
+  
+  IF ismx = 1 { smNew:SHOW. } ELSE { smNew:HIDE. }
+  IF ismx = 2 { mdWarning:SHOW. } ELSE { mdWarning:HIDE. }
+  IF ismx = 3 { ddWarning:SHOW. } ELSE { ddWarning:HIDE. }
+  IF ismx = 4 { smOptions:SHOW. } ELSE { smOptions:HIDE. }
 }
 
 FUNCTION source_dir_slector {//build source directory list
-	PARAMETER vol.
-	PRINT "Source vol: " +vol.
-	IF vol = "archive" {
-		SET ismdList:OPTIONS TO archiveDirs.
-	} ELSE {
-		SET ismdList:OPTIONS TO localDirs.
-	}
-	SET mdWarning:TEXT TO "NOTE: Can Not Move Directory: " + ismdList:OPTIONS[0].
-	SET ddWarning:TEXT TO "NOTE: Can Not Delete Directory: " + ismdList:OPTIONS[0].
-	index_in_range(ismdList).
-	source_file_slector(ismdList:VALUE).
+  PARAMETER vol.
+  PRINT "Source vol: " +vol.
+  IF vol = "archive" {
+    SET ismdList:OPTIONS TO archiveDirs.
+  } ELSE {
+    SET ismdList:OPTIONS TO localDirs.
+  }
+  SET mdWarning:TEXT TO "NOTE: Can Not Move Directory: " + ismdList:OPTIONS[0].
+  SET ddWarning:TEXT TO "NOTE: Can Not Delete Directory: " + ismdList:OPTIONS[0].
+  index_in_range(ismdList).
+  source_file_slector(ismdList:VALUE).
 }
 
 FUNCTION source_file_slector {//build source file list
-	PARAMETER dir.
-	PRINT "Source dir: " + dir.
-	LOCAL fileList IS get_files(dir).
-	SET ismfList:OPTIONS TO file_filter(fileList).
-	index_in_range(ismfList).
-	source_file_info_updater(ismfList:VALUE).
+  PARAMETER dir.
+  PRINT "Source dir: " + dir.
+  LOCAL fileList IS get_files(dir).
+  SET ismfList:OPTIONS TO file_filter(fileList).
+  index_in_range(ismfList).
+  source_file_info_updater(ismfList:VALUE).
 }
 
 FUNCTION source_file_info_updater {//update information about slected source file
-	PARAMETER sFile.
-	IF ismfList:OPTIONS:LENGTH <> 0 {
-		PRINT "Source File: " + sFile.
-		SET ismfbSize:TEXT TO "File Size: " + sFile:SIZE.
-		IF iModeList:VALUE = "Rename Files" { SET smnName:TEXT TO sFile:NAME. }
-		ismfList:SHOW.
-	} ELSE {
-		SET ismfbSize:TEXT TO "No Files in Directory".
-		ismfList:HIDE.
-	}
+  PARAMETER sFile.
+  IF ismfList:OPTIONS:LENGTH <> 0 {
+    PRINT "Source File: " + sFile.
+    SET ismfbSize:TEXT TO "File Size: " + sFile:SIZE.
+    IF iModeList:VALUE = "Rename Files" { SET smnName:TEXT TO sFile:NAME. }
+    ismfList:SHOW.
+  } ELSE {
+    SET ismfbSize:TEXT TO "No Files in Directory".
+    ismfList:HIDE.
+  }
 }
 
 FUNCTION destination_dir_slector {//build destination directory list
-	PARAMETER vol.
-	PRINT "Destination vol: " + vol.
-	IF vol = "archive" {
-		SET idmdList:OPTIONS TO archiveDirs.
-		SET idmvbSize:TEXT TO "Free Space: Infinite".
-	} ELSE {
-		SET idmdList:OPTIONS TO localDirs.
-		SET idmvbSize:TEXT TO "Free Space: " + PATH("1:/"):VOLUME:FREESPACE.
-	}
-	index_in_range(idmdList).
-	destination_dir_print(idmdList:VALUE).
+  PARAMETER vol.
+  PRINT "Destination vol: " + vol.
+  IF vol = "archive" {
+    SET idmdList:OPTIONS TO archiveDirs.
+    SET idmvbSize:TEXT TO "Free Space: Infinite".
+  } ELSE {
+    SET idmdList:OPTIONS TO localDirs.
+    SET idmvbSize:TEXT TO "Free Space: " + PATH("1:/"):VOLUME:FREESPACE.
+  }
+  index_in_range(idmdList).
+  destination_dir_print(idmdList:VALUE).
 }
 
 FUNCTION index_in_range {//keeps INDEX for pupup in range
-	PARAMETER popup.
-	IF popup:INDEX < 0  {
-		SET popup:INDEX TO 0.
-	} ELSE IF popup:INDEX > (popup:OPTIONS:LENGTH - 1) {
-		SET popup:INDEX TO popup:OPTIONS:LENGTH - 1.
-	} ELSE {
-		SET popup:INDEX TO popup:INDEX.
-	}
+  PARAMETER popup.
+  IF popup:INDEX < 0  {
+    SET popup:INDEX TO 0.
+  } ELSE IF popup:INDEX > (popup:OPTIONS:LENGTH - 1) {
+    SET popup:INDEX TO popup:OPTIONS:LENGTH - 1.
+  } ELSE {
+    SET popup:INDEX TO popup:INDEX.
+  }
 }
 
 FUNCTION destination_dir_print {//did more once
-	PARAMETER dir.
-	PRINT "Destination dir: " + dir.
+  PARAMETER dir.
+  PRINT "Destination dir: " + dir.
 }
 
 FUNCTION copy_from_to {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL toPath IS PATH(idmdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	IF ifdsFile:PRESSED {
-		PRINT "Copying File: " + fileName.
-		PRINT "        From: " + fromPath + " To: " + toPath.
-		COPYPATH(fromPath:COMBINE(fileName),toPath).
-	} ELSE {
-		PRINT "Copying Directory From: " + fromPath.
-		PRINT "                    To: " + toPath.
-		COPYPATH(fromPath,toPath).
-	}
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL toPath IS PATH(idmdList:VALUE).
+  LOCAL fileName IS ismfList:VALUE:NAME.
+  IF ifdsFile:PRESSED {
+    PRINT "Copying File: " + fileName.
+    PRINT "        From: " + fromPath + " To: " + toPath.
+    COPYPATH(fromPath:COMBINE(fileName),toPath).
+  } ELSE {
+    PRINT "Copying Directory From: " + fromPath.
+    PRINT "                    To: " + toPath.
+    COPYPATH(fromPath,toPath).
+  }
 }
 
 FUNCTION move_from_to {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL toPath IS PATH(idmdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	IF ifdsFile:PRESSED {
-		PRINT "Moving File: " + fileName.
-		PRINT "       From: " + fromPath + " To: " + toPath.
-		MOVEPATH(fromPath:COMBINE(fileName),toPath).
-	} ELSE {
-		IF ismdList:INDEX = 0 {
-			PRINT "Can Not Move Root".
-		} ELSE {
-			PRINT "Moving Directory: " + fromPath:NAME.
-			PRINT "            From: " + fromPath + " To: " + toPath.
-			MOVEPATH(fromPath,toPath).
-		}
-	}
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL toPath IS PATH(idmdList:VALUE).
+  LOCAL fileName IS ismfList:VALUE:NAME.
+  IF ifdsFile:PRESSED {
+    PRINT "Moving File: " + fileName.
+    PRINT "       From: " + fromPath + " To: " + toPath.
+    MOVEPATH(fromPath:COMBINE(fileName),toPath).
+  } ELSE {
+    IF ismdList:INDEX = 0 {
+      PRINT "Can Not Move Root".
+    } ELSE {
+      PRINT "Moving Directory: " + fromPath:NAME.
+      PRINT "            From: " + fromPath + " To: " + toPath.
+      MOVEPATH(fromPath,toPath).
+    }
+  }
 }
 
 FUNCTION delete_at {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	IF ifdsFile:PRESSED {
-		DELETEPATH(fromPath:COMBINE(fileName)).
-		PRINT "Deleted File: " + fileName.
-		PRINT "          At: " + fromPath.
-	} ELSE {
-		IF ismdList:INDEX = 0 {
-			PRINT "Can Not Delete Root".
-		} ELSE {
-			DELETEPATH(fromPath).
-			PRINT "Deleted Directory At: " + fromPath.
-		}
-	}
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL fileName IS ismfList:VALUE:NAME.
+  IF ifdsFile:PRESSED {
+    DELETEPATH(fromPath:COMBINE(fileName)).
+    PRINT "Deleted File: " + fileName.
+    PRINT "          At: " + fromPath.
+  } ELSE {
+    IF ismdList:INDEX = 0 {
+      PRINT "Can Not Delete Root".
+    } ELSE {
+      DELETEPATH(fromPath).
+      PRINT "Deleted Directory At: " + fromPath.
+    }
+  }
 }
 
 FUNCTION compile_file_from_to {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL toPath IS PATH(idmdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	PRINT "Compiling File: " + fileName.
-	PRINT "          From: " + fromPath + " To: " + toPath.
-	COMPILE (fromPath:COMBINE(fileName)) TO (toPath:COMBINE(name_only(ismfList:VALUE)+".ksm")).
-	PRINT "Done Compiling: " + fileName.
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL toPath IS PATH(idmdList:VALUE).
+  LOCAL fileName IS ismfList:VALUE:NAME.
+  PRINT "Compiling File: " + fileName.
+  PRINT "          From: " + fromPath + " To: " + toPath.
+  COMPILE (fromPath:COMBINE(fileName)) TO (toPath:COMBINE(name_only(ismfList:VALUE)+".ksm")).
+  PRINT "Done Compiling: " + fileName.
 }
 
 FUNCTION rename_file_at {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	LOCAL newName IS smnName:TEXT.
-	MOVEPATH(fromPath:COMBINE(fileName),fromPath:COMBINE(newName)).
-	PRINT "Renamed File From: " + fileName.
-	PRINT "               To: " + newName.
-	PRINT "               At: " + fromPath.
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL fileName IS ismfList:VALUE:NAME.
+  LOCAL newName IS smnName:TEXT.
+  MOVEPATH(fromPath:COMBINE(fileName),fromPath:COMBINE(newName)).
+  PRINT "Renamed File From: " + fileName.
+  PRINT "               To: " + newName.
+  PRINT "               At: " + fromPath.
 }
 
 FUNCTION edit_file {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL fileName IS ismfList:VALUE:NAME.
-	EDIT(fromPath:COMBINE(fileName)).
-	PRINT "Editing File: " + fileName.
-	PRINT "          At: " + fromPath.
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL fileName IS ismfList:VALUE:NAME.
+  EDIT(fromPath:COMBINE(fileName)).
+  PRINT "Editing File: " + fileName.
+  PRINT "          At: " + fromPath.
 }
 
 FUNCTION new_directory_at {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL newDirName IS smnName:TEXT.
-	IF NOT EXISTS(fromPath:COMBINE(newDirName)) {
-		CREATEDIR(fromPath:COMBINE(newDirName)).
-		PRINT "Making New Directory: " + newDirName.
-		PRINT "                  At: " + fromPath.
-	} ELSE {
-		PRINT "Directory Already Exists".
-	}
-	SET smnName:TEXT TO "".
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL newDirName IS smnName:TEXT.
+  IF NOT EXISTS(fromPath:COMBINE(newDirName)) {
+    CREATEDIR(fromPath:COMBINE(newDirName)).
+    PRINT "Making New Directory: " + newDirName.
+    PRINT "                  At: " + fromPath.
+  } ELSE {
+    PRINT "Directory Already Exists".
+  }
+  SET smnName:TEXT TO "".
 }
 
 FUNCTION unpack_directory_at {
-	LOCAL fromPath IS PATH(ismdList:VALUE).
-	LOCAL toPath IS PATH(idmdList:VALUE).
-	PRINT "Unpacking: " + fromPath.
-	PRINT "       At: " + toPath.
-	LOCAL localFiles IS get_files(fromPath).
-	LOCAL localFileList IS file_filter(localFiles).
-	LOCAL localDirList IS dir_filter(localFiles).
-	FOR lFile IN localFileList { COPYPATH (fromPath:COMBINE(lFile:NAME),toPath). }
-	FOR dFile IN localDirList { COPYPATH (fromPath:COMBINE(dFile:NAME),toPath). }
+  LOCAL fromPath IS PATH(ismdList:VALUE).
+  LOCAL toPath IS PATH(idmdList:VALUE).
+  PRINT "Unpacking: " + fromPath.
+  PRINT "       At: " + toPath.
+  LOCAL localFiles IS get_files(fromPath).
+  LOCAL localFileList IS file_filter(localFiles).
+  LOCAL localDirList IS dir_filter(localFiles).
+  FOR lFile IN localFileList { COPYPATH (fromPath:COMBINE(lFile:NAME),toPath). }
+  FOR dFile IN localDirList { COPYPATH (fromPath:COMBINE(dFile:NAME),toPath). }
 }
 
 FUNCTION update_local_volume {
-	LOCAL notUsePath IS NOT uvPath:PRESSED.
-	LOCAL notUseSize IS NOT uvSize:PRESSED.
-	LOCAL notUseExtension IS NOT uvExt:PRESSED.
-	LOCAL useCompile IS uvCompile:PRESSED.
-	LOCAL localFiles IS dir_scan(PATH("1:/")).
-	LOCAL archiveFiles IS dir_scan(PATH("0:/")).
-	PRINT "Called Updater".
-	PRINT " ".
-	FOR lFile IN localFiles {
-		FOR aFile IN archiveFiles {
-			IF name_only(aFile[1]) = name_only(lFile[1]) {//name check
-				IF notUsePath OR (no_root(aFile[0]) = no_root(lFile[0])) {//path check
-					IF notUseSize OR (aFile[1]:SIZE <> lFile[1]:SIZE) {//size check
-						IF notUseExtension OR (aFile[1]:EXTENSION = lFile[1]:EXTENSION) {//extension check
-							COPYPATH(aFile[0]:COMBINE(aFile[1]:NAME),lFile[0]).
-							PRINT "Copying File: " + aFile[1].
-							PRINT "        From: " + aFile[0] + " To: " + lFile[0].
-							PRINT " ".
-						}
-					}
-					IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
-						PRINT "Compiling File: " + aFile[1].
-						PRINT "          From: " + aFile[0] + " To: " + lFile[0].
-						COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
-						PRINT "Done Compiling: " + aFile[1].
-						PRINT " ".
-					}
-				}
-			}
-		}
-	}
-	PRINT "Done Updating Files".
+  LOCAL notUsePath IS NOT uvPath:PRESSED.
+  LOCAL notUseSize IS NOT uvSize:PRESSED.
+  LOCAL notUseExtension IS NOT uvExt:PRESSED.
+  LOCAL useCompile IS uvCompile:PRESSED.
+  LOCAL localFiles IS dir_scan(PATH("1:/")).
+  LOCAL archiveFiles IS dir_scan(PATH("0:/")).
+  PRINT "Called Updater".
+  PRINT " ".
+  FOR lFile IN localFiles {
+    FOR aFile IN archiveFiles {
+      IF name_only(aFile[1]) = name_only(lFile[1]) {//name check
+        IF notUsePath OR (no_root(aFile[0]) = no_root(lFile[0])) {//path check
+          IF notUseSize OR (aFile[1]:SIZE <> lFile[1]:SIZE) {//size check
+            IF notUseExtension OR (aFile[1]:EXTENSION = lFile[1]:EXTENSION) {//extension check
+              COPYPATH(aFile[0]:COMBINE(aFile[1]:NAME),lFile[0]).
+              PRINT "Copying File: " + aFile[1].
+              PRINT "        From: " + aFile[0] + " To: " + lFile[0].
+              PRINT " ".
+            }
+          }
+          IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
+            PRINT "Compiling File: " + aFile[1].
+            PRINT "          From: " + aFile[0] + " To: " + lFile[0].
+            COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
+            PRINT "Done Compiling: " + aFile[1].
+            PRINT " ".
+          }
+        }
+      }
+    }
+  }
+  PRINT "Done Updating Files".
 }
 
 FUNCTION get_files {
-	PARAMETER dir.
-	LOCAL dirRevert IS PATH().
-	CD(PATH(dir)).
-	LOCAL fileList IS LIST().
-	LIST FILES IN fileList.
-	WAIT 0.
-	CD(dirRevert).
-	RETURN fileList.
+  PARAMETER dir.
+  LOCAL dirRevert IS PATH().
+  CD(PATH(dir)).
+  LOCAL fileList IS LIST().
+  LIST FILES IN fileList.
+  WAIT 0.
+  CD(dirRevert).
+  RETURN fileList.
 }
 
 FUNCTION file_filter {//filters a list for files
-	PARAMETER rawList.
-	LOCAL localList IS LIST().
-	FOR raw IN rawList { IF raw:ISFILE { localList:ADD(raw). } }
-	RETURN localList.
+  PARAMETER rawList.
+  LOCAL localList IS LIST().
+  FOR raw IN rawList { IF raw:ISFILE { localList:ADD(raw). } }
+  RETURN localList.
 }
 
 FUNCTION dir_filter {//filters a list for files
-	PARAMETER rawList.
-	LOCAL localList IS LIST().
-	FOR raw IN rawList { IF NOT raw:ISFILE { localList:ADD(raw). } }
-	RETURN localList.
+  PARAMETER rawList.
+  LOCAL localList IS LIST().
+  FOR raw IN rawList { IF NOT raw:ISFILE { localList:ADD(raw). } }
+  RETURN localList.
 }
 
 FUNCTION dir_scan {
-	PARAMETER dirIn,extL IS LIST(-99999),doDirRevert IS TRUE.
-	LOCAL masterList IS LIST().
+  PARAMETER dirIn,extL IS LIST(-99999),doDirRevert IS TRUE.
+  LOCAL masterList IS LIST().
 
-	LOCAL dirRevert IS PATH().
-	IF dirIn:ISTYPE("list") {
-		FOR subDir IN dirIn {
-			FOR foundItem IN dir_scan(subDir,extL,FALSE) {
-				masterList:ADD(foundItem).
-			}
-		}
-	} ELSE {
-		LOCAL dirPath IS PATH(dirIn).
-		CD(dirPath).
-		LOCAL fileList IS LIST().
-		LIST FILES IN fileList.
-	
-		LOCAL dirList IS LIST().
-		IF NOT extL:ISTYPE("list") { masterList:ADD(dirPath). }
-		FOR filter IN fileList {
-			IF extL:ISTYPE("list") {
-				FOR ext IN extL {
-					IF filter:ISFILE AND ((filter:EXTENSION = ext) OR (-99999 = ext)) {
-						masterList:ADD(LIST(dirPath,filter)).
-					}
-				}
-			}
-			IF (NOT filter:ISFILE) {
-				dirList:ADD(dirPath:COMBINE(filter + "/")).
-			}
-		}
-		FOR subFile IN dir_scan(dirList,extL,FALSE) {
-			masterList:ADD(subFile).
-		}
-	}
-	IF doDirRevert { 
-		WAIT 0.01.
-		CD(dirRevert).
-	}
-	RETURN masterList.
+  LOCAL dirRevert IS PATH().
+  IF dirIn:ISTYPE("list") {
+    FOR subDir IN dirIn {
+      FOR foundItem IN dir_scan(subDir,extL,FALSE) {
+        masterList:ADD(foundItem).
+      }
+    }
+  } ELSE {
+    LOCAL dirPath IS PATH(dirIn).
+    CD(dirPath).
+    LOCAL fileList IS LIST().
+    LIST FILES IN fileList.
+  
+    LOCAL dirList IS LIST().
+    IF NOT extL:ISTYPE("list") { masterList:ADD(dirPath). }
+    FOR filter IN fileList {
+      IF extL:ISTYPE("list") {
+        FOR ext IN extL {
+          IF filter:ISFILE AND ((filter:EXTENSION = ext) OR (-99999 = ext)) {
+            masterList:ADD(LIST(dirPath,filter)).
+          }
+        }
+      }
+      IF (NOT filter:ISFILE) {
+        dirList:ADD(dirPath:COMBINE(filter + "/")).
+      }
+    }
+    FOR subFile IN dir_scan(dirList,extL,FALSE) {
+      masterList:ADD(subFile).
+    }
+  }
+  IF doDirRevert { 
+    WAIT 0.01.
+    CD(dirRevert).
+  }
+  RETURN masterList.
 }
 
 FUNCTION no_root {
-	PARAMETER segment.
-	RETURN segment:SEGMENTS:JOIN("/").
+  PARAMETER segment.
+  RETURN segment:SEGMENTS:JOIN("/").
 }
 
 FUNCTION name_only {
-	PARAMETER fileName.
-	RETURN fileName:NAME:SUBSTRING(0,fileName:NAME:LENGTH - (fileName:EXTENSION:LENGTH + 1)).
+  PARAMETER fileName.
+  RETURN fileName:NAME:SUBSTRING(0,fileName:NAME:LENGTH - (fileName:EXTENSION:LENGTH + 1)).
 }

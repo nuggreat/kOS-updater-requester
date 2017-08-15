@@ -15,25 +15,25 @@ LOCAL localFiles IS dir_scan(localDir,extList).
 LOCAL archiveFiles IS dir_scan(archiveDir,extList).
 
 FOR lFile IN localFiles {
-	FOR aFile IN archiveFiles {
-		IF name_only(aFile[1]) = name_only(lFile[1]) {//name check
-			IF notUsePath OR (no_root(aFile[0]) = no_root(lFile[0])() {//path check
-				IF notUseSize OR (aFile[1]:SIZE <> lFile[1]:SIZE) {//size check
-					IF notUseExtension OR (aFile[1]:EXTENSION = lFile[1]:EXTENSION) {//extension check
-						COPYPATH(aFile[0]:COMBINE(aFile[1]:NAME),lFile[0]).
-						PRINT "Copying File: " + aFile[1].
-						PRINT "        From: " + aFile[0] + " To: " + lFile[0].
-						PRINT " ".
-					}
-				}
-				IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
-					PRINT "Compiling File: " + aFile[1].
-					PRINT "          From: " + aFile[0] + " To: " + lFile[0].
-					COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
-					PRINT "Done Compiling: " + aFile[1].
-					PRINT " ".
-				}
-			}
-		}
-	}
+  FOR aFile IN archiveFiles {
+    IF name_only(aFile[1]) = name_only(lFile[1]) {//name check
+      IF notUsePath OR (no_root(aFile[0]) = no_root(lFile[0])() {//path check
+        IF notUseSize OR (aFile[1]:SIZE <> lFile[1]:SIZE) {//size check
+          IF notUseExtension OR (aFile[1]:EXTENSION = lFile[1]:EXTENSION) {//extension check
+            COPYPATH(aFile[0]:COMBINE(aFile[1]:NAME),lFile[0]).
+            PRINT "Copying File: " + aFile[1].
+            PRINT "        From: " + aFile[0] + " To: " + lFile[0].
+            PRINT " ".
+          }
+        }
+        IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
+          PRINT "Compiling File: " + aFile[1].
+          PRINT "          From: " + aFile[0] + " To: " + lFile[0].
+          COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
+          PRINT "Done Compiling: " + aFile[1].
+          PRINT " ".
+        }
+      }
+    }
+  }
 }} ELSE { PRINT "Archive Not Found". }
