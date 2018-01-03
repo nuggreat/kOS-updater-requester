@@ -419,27 +419,31 @@ FUNCTION update_local_volume {
   LOCAL notUseSize IS NOT uvSize:PRESSED.
   LOCAL notUseExtension IS NOT uvExt:PRESSED.
   LOCAL useCompile IS uvCompile:PRESSED.
-  LOCAL localFiles IS dir_scan(PATH("1:/")).
-  LOCAL archiveFiles IS dir_scan(PATH("0:/")).
   PRINT "Called Updater".
   PRINT " ".
-  FOR lFile IN localFiles {
-    FOR aFile IN archiveFiles {
-      IF name_only(aFile[1]) = name_only(lFile[1]) {//name check
-        IF notUsePath OR (no_root(aFile[0]) = no_root(lFile[0])) {//path check
-          IF notUseSize OR (aFile[1]:SIZE <> lFile[1]:SIZE) {//size check
-            IF notUseExtension OR (aFile[1]:EXTENSION = lFile[1]:EXTENSION) {//extension check
-              COPYPATH(aFile[0]:COMBINE(aFile[1]:NAME),lFile[0]).
-              PRINT "Copying File: " + aFile[1].
-              PRINT "        From: " + aFile[0] + " To: " + lFile[0].
+  LOCAL lFiles IS dir_scan(PATH("1:/")).
+  LOCAL aFiles IS dir_scan(PATH("0:/")).
+  LOCAL lfNameOnly IS name_only(lFiles).
+  LOCAL afNameOnly IS name_only(aFiles).
+  LOCAL lfNoRoot IS no_root(lFiles).
+  LOCAL afNoRoot IS no_root(aFiles).
+  FROM {LOCAL iL IS 0.} UNTIL iL >= lFiles:LENGTH STEP {SET iL TO iL + 1.} DO {
+    FROM {LOCAL iA IS 0.} UNTIL iA >= aFiles:LENGTH STEP {SET iA TO iA + 1.} DO {
+      IF afNameOnly[iA] = lfNameOnly[iL] {//name check
+        IF notUsePath OR (afNoRoot[iA] = lfNoRoot[iL]) {//path check
+          IF notUseSize OR (aFiles[iA][1]:SIZE <> lFiles[iL][1]:SIZE) {//size check
+            IF notUseExtension OR (aFiles[iA][1]:EXTENSION = lFiles[iL][1]:EXTENSION) {//extension check
+              COPYPATH(aFiles[iA][0]:COMBINE(aFiles[iA][1]:NAME),lFiles[iL][0]).
+              PRINT "Copying File: " + aFiles[iA][1].
+              PRINT "        From: " + aFiles[iA][0] + " To: " + lFiles[iL][0].
               PRINT " ".
             }
           }
-          IF useCompile AND (aFile[1]:EXTENSION = "ks") AND (lFile[1]:EXTENSION = "ksm") {
-            PRINT "Compiling File: " + aFile[1].
-            PRINT "          From: " + aFile[0] + " To: " + lFile[0].
-            COMPILE aFile[0]:COMBINE(aFile[1]:NAME) TO lFile[0]:COMBINE(name_only(lFile[1]) + ".ksm").
-            PRINT "Done Compiling: " + aFile[1].
+          IF useCompile AND (aFiles[iA][1]:EXTENSION = "ks") AND (lFiles[iL][1]:EXTENSION = "ksm") {
+            PRINT "Compiling File: " + aFiles[iA][1].
+            PRINT "          From: " + aFiles[iA][0] + " To: " + lFiles[iL][0].
+            COMPILE aFiles[iA][0]:COMBINE(aFiles[iA][1]:NAME) TO lFiles[iL][0]:COMBINE(name_only(lFiles[iL][1]) + ".ksm").
+            PRINT "Done Compiling: " + aFiles[iA][1].
             PRINT " ".
           }
         }
