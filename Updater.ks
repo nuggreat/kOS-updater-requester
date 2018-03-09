@@ -2,7 +2,7 @@ PARAMETER notUseExtension IS FALSE, //set if the file being updated must have th
 notUsePath IS FALSE, //sets if the file being updated must have the same path ignoring volume to be updated (FALSE = use and TRUE = ignore)
 notUseSize IS TRUE, //sets if the file being updated must have a different size compared to the file on the archive to be updated (FALSE = use and TRUE = ignore)
 useCompile IS TRUE.//sets if the updater will compile .ks files on archive to .ksm on local if all other conditions match (FALSE = don't compile and TRUE = compile)
-IF EXISTS("0:/") {
+IF HOMECONNECTION:ISCONNECTED {
 FOR lib IN LIST("lib_file_util") { IF EXISTS("1:/lib/" + lib + ".ksm") { RUNONCEPATH("1:/lib/" + lib + ".ksm"). } ELSE { RUNONCEPATH("1:/lib/" + lib + ".ks"). }}
 CLEARSCREEN.
 LOCAL localDir IS LIST().

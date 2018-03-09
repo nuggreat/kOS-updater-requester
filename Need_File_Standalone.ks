@@ -19,7 +19,7 @@ FOR localFile IN dir_scan(localDir) {
 IF copyNeeded {
   PRINT "No Local Copy of File: " + fileName.
   PRINT "Scaning Archive".
-  IF EXISTS("0:/") {
+  IF HOMECONNECTION:ISCONNECTED {
     FOR archiveFile IN dir_scan(archiveDir) {
       IF name_only(archiveFile[1]) = fileName {
         IF archiveFile[1]:EXTENSION = fileExt OR fileExt = "" {

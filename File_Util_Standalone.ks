@@ -1,7 +1,8 @@
 CLEARGUIS().
+IF HOMECONNECTION:ISCONNECTED {
 
 LOCAL archiveRoot IS PATH("0:/").
-LOCAL localRoot IS PATH("1:/").
+LOCAL localRoot IS PATH(CORE:CURRENTVOLUME).
 
 GLOBAL localDirs IS dir_scan(localRoot,FALSE).
 GLOBAL archiveDirs IS dir_scan(archiveRoot,FALSE).
@@ -105,6 +106,7 @@ SET doneButton:ONCLICK TO { SET done TO TRUE. }.
 interface:SHOW.//set up done waiting on user input
 WAIT UNTIL done.
 interface:DISPOSE.
+}
 
 FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
   LOCAL dirRebild IS ifdsDir:PRESSED.  //info needed for rebuild
@@ -420,8 +422,8 @@ FUNCTION update_local_volume {
   LOCAL useCompile IS uvCompile:PRESSED.
   PRINT "Called Updater".
   PRINT " ".
-  LOCAL lFiles IS dir_scan(PATH("1:/")).
-  LOCAL aFiles IS dir_scan(PATH("0:/")).
+  LOCAL lFiles IS dir_scan(localRoot).
+  LOCAL aFiles IS dir_scan(archiveRoot).
   LOCAL lfNameOnly IS name_only(lFiles).
   LOCAL afNameOnly IS name_only(aFiles).
   LOCAL lfNoRoot IS no_root(lFiles).
