@@ -1,7 +1,7 @@
 CLEARGUIS().
 IF HOMECONNECTION:ISCONNECTED {
 
-LOCAL archiveRoot IS PATH("0:/").
+LOCAL archiveRoot IS PATH("0:/1").
 LOCAL localRoot IS PATH(CORE:CURRENTVOLUME).
 
 GLOBAL localDirs IS dir_scan(localRoot,FALSE).
@@ -106,7 +106,7 @@ SET doneButton:ONCLICK TO { SET done TO TRUE. }.
 interface:SHOW.//set up done waiting on user input
 WAIT UNTIL done.
 interface:DISPOSE.
-}
+
 
 FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
   LOCAL dirRebild IS ifdsDir:PRESSED.  //info needed for rebuild
@@ -123,10 +123,10 @@ FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
   
   IF dirRebild AND iSourceMenu:VISIBLE {//rebuild source/destination dir/file lists after a mode runs
     IF menuValue = "archive" {
-      SET archiveDirs TO dir_scan(PATH("0:/"),FALSE).
+      SET archiveDirs TO dir_scan(archiveRoot,FALSE).
     }
     IF menuValue = "local" {
-      SET localDirs TO dir_scan(PATH("1:/"),FALSE).
+      SET localDirs TO dir_scan(localRoot,FALSE).
     }
   }
   destination_dir_slector(idmvList:VALUE).
@@ -289,7 +289,7 @@ FUNCTION destination_dir_slector {//build destination directory list
     SET idmvbSize:TEXT TO "Free Space: Infinite".
   } ELSE {
     SET idmdList:OPTIONS TO localDirs.
-    SET idmvbSize:TEXT TO "Free Space: " + PATH("1:/"):VOLUME:FREESPACE.
+    SET idmvbSize:TEXT TO "Free Space: " + localRoot:VOLUME:FREESPACE.
   }
   index_in_range(idmdList).
   destination_dir_print(idmdList:VALUE).
@@ -547,4 +547,5 @@ FUNCTION name_only {
     }
     RETURN returnList.
   }
+}
 }
