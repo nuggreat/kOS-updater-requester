@@ -107,7 +107,7 @@ SET doneButton:ONCLICK TO { SET done TO TRUE. }.
 interface:SHOW.//set up done waiting on user input
 WAIT UNTIL done.
 interface:DISPOSE.
-}
+
 
 FUNCTION run_mode {//calls chosed mode,rebuild of source/destination lists
   LOCAL dirRebild IS ifdsDir:PRESSED.  //info needed for rebuild
